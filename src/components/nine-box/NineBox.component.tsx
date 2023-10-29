@@ -1,4 +1,4 @@
-import { Stage, Layer, Circle, Rect } from 'react-konva'
+import { Stage, Layer, Circle, Rect, Text, Group } from 'react-konva'
 import { useNineboxState } from './hooks/useNineboxState'
 
 interface IProps {
@@ -6,13 +6,13 @@ interface IProps {
 }
 
 export const NineBoxComponent: React.FC<IProps> = ({ size = 300 }) => {
-  const { squareSize, getOffset, cuadrants, handleDragEnd, circles } =
+  const { squareSize, getOffset, quadrants, handleDragEnd, circles } =
     useNineboxState({ size })
 
   return (
     <Stage width={size + 2} height={size + 2}>
       <Layer>
-        {cuadrants.map((e, i) => (
+        {quadrants.map((e, i) => (
           <Rect
             key={i}
             height={squareSize}
@@ -26,21 +26,33 @@ export const NineBoxComponent: React.FC<IProps> = ({ size = 300 }) => {
           />
         ))}
 
-        {circles.map((e: any) => (
-          <Circle
-            height={30}
-            width={30}
-            draggable
-            fill={e.color}
+        {circles.map((e: any, i: number) => (
+          <Group
             x={e.x}
             y={e.y}
+            draggable
             onDragEnd={handleDragEnd}
-            shadowColor="black"
-            shadowBlur={5}
-            shadowOpacity={0.4}
-            shadowOffsetX={3}
-            shadowOffsetY={3}
-          />
+            key={`circle-${i}`}
+          >
+            <Circle
+              height={30}
+              width={30}
+              fill={e.color}
+              shadowColor="black"
+              shadowBlur={5}
+              shadowOpacity={0.4}
+              shadowOffsetX={3}
+              shadowOffsetY={3}
+            />
+
+            <Text
+              text={(i + 1).toString()}
+              fontSize={9}
+              fill="#FFFFFF"
+              x={-5}
+              y={-4}
+            />
+          </Group>
         ))}
       </Layer>
     </Stage>

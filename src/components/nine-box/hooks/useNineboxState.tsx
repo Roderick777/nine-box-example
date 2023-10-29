@@ -1,16 +1,21 @@
 import { Vector2d } from 'konva/lib/types'
 import { useState } from 'react'
 
+const generateCircles = () => {
+  let response: any[] = []
+  for (let i = 0; i < 500; i++) {
+    response = [...response, { x: 50, y: 40, image: '', color: '#000' }]
+  }
+  console.log(response.length)
+  return response
+}
+const initialCircles = generateCircles()
+
 export const useNineboxState = ({ size }: any) => {
   const squareSize = size / 3
+  const [circles, setCircles] = useState(initialCircles)
 
-  const [circles, setCircles] = useState([
-    { x: 50, y: 40, image: '', color: '#000' },
-    { x: 150, y: 140, image: '', color: '#000' },
-    { x: 250, y: 230, image: '', color: '#000' },
-  ])
-
-  const cuadrants = [
+  const quadrants = [
     { label: '1', color: '#FFC3A0' },
     { label: '2', color: '#FFECB3' },
     { label: '3', color: '#B5EAD7' },
@@ -43,14 +48,13 @@ export const useNineboxState = ({ size }: any) => {
       })
     )
     console.log(_e)
-    alert('Cambio')
   }
 
   return {
     circles,
     squareSize,
     handleDragEnd,
-    cuadrants,
+    quadrants,
     getOffset,
   }
 }
